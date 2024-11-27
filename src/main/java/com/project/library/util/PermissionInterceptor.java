@@ -56,6 +56,7 @@ public class PermissionInterceptor implements HandlerInterceptor {
     private boolean isPublic(String httpMethod, String path) {
         if (path.matches("/upload/.*")) return true;
         if ("POST".equals(httpMethod) && "/api/v1/auth/login".equals(path)) return true;
+        if ("POST".equals(httpMethod) && "/api/v1/auth/logout".equals(path)) return true;
         if ("POST".equals(httpMethod) && "/api/v1/auth/register".equals(path)) return true;
         if ("GET".equals(httpMethod) && "/api/v1/auth/refresh".equals(path)) return true;
         if ("GET".equals(httpMethod) && "/api/v1/auth/activate".equals(path)) return true;

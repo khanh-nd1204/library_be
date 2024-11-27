@@ -55,7 +55,7 @@ public class GlobalExceptionHandler {
         return new ResponseEntity<>(res, HttpStatus.NOT_FOUND);
     }
 
-    @ExceptionHandler({BadRequestException.class, IllegalArgumentException.class, MultipartException.class, HttpRequestMethodNotSupportedException.class})
+    @ExceptionHandler({BadRequestException.class, MissingRequestCookieException.class, IllegalArgumentException.class, MultipartException.class, HttpRequestMethodNotSupportedException.class})
     public ResponseEntity<ResponseObject> handleBadRequestException(Exception e) {
         ResponseObject res = new ResponseObject(
                 HttpStatus.BAD_REQUEST.value(),
@@ -108,8 +108,8 @@ public class GlobalExceptionHandler {
         return new ResponseEntity<>(res, HttpStatus.BAD_REQUEST);
     }
 
-    @ExceptionHandler({UnauthorizedException.class, MissingRequestCookieException.class, BadJwtException.class})
-    public ResponseEntity<ResponseObject> handleUnauthorizedException(UnauthorizedException e) {
+    @ExceptionHandler({UnauthorizedException.class, BadJwtException.class})
+    public ResponseEntity<ResponseObject> handleUnauthorizedException(Exception e) {
         ResponseObject res = new ResponseObject(
                 HttpStatus.UNAUTHORIZED.value(),
                 e.getMessage(),null,"Authentication error"

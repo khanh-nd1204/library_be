@@ -38,8 +38,8 @@ public class UserServiceImpl implements UserService {
     @Autowired
     private MailService mailService;
 
-    @Value("${spring.mail.expiry-in-seconds}")
-    private int expiryInSeconds;
+    @Value("${spring.mail.expiry-validity-in-seconds}")
+    private int expiryValidityInSeconds;
 
     @Override
     public UserDTO createUser(CreateUserDTO createUserDTO) throws Exception {
@@ -59,8 +59,7 @@ public class UserServiceImpl implements UserService {
         user.setPhone(createUserDTO.getPhone().trim());
         user.setActive(true);
 
-        RoleEntity role = roleRepo.findById(createUserDTO.getRoleId())
-                .orElseThrow(() -> new NotFoundException("Role not found"));
+        RoleEntity role = roleRepo.findById(2L).orElseThrow(() -> new NotFoundException("Role not found"));
         user.setRole(role);
 
         return convertDTO(userRepo.save(user));
@@ -156,7 +155,7 @@ public class UserServiceImpl implements UserService {
         user.setRole(role);
 
         int otp = (int) Math.floor(100000 + Math.random() * 900000);
-        Instant otpExpried = Instant.now().plusSeconds(expiryInSeconds);
+        Instant otpExpried = Instant.now().plusSeconds(expiryValidityInSeconds);
         user.setOtp(otp);
         user.setOtpExpired(otpExpried);
 
@@ -244,7 +243,7 @@ public class UserServiceImpl implements UserService {
         }
 
         int otp = (int) Math.floor(100000 + Math.random() * 900000);
-        Instant otpExpried = Instant.now().plusSeconds(expiryInSeconds);
+        Instant otpExpried = Instant.now().plusSeconds(expiryValidityInSeconds);
         user.setOtp(otp);
         user.setOtpExpired(otpExpried);
         userRepo.save(user);
@@ -252,7 +251,7 @@ public class UserServiceImpl implements UserService {
         MailDTO mailDTO = new MailDTO();
         mailDTO.setTo(user.getEmail());
         mailDTO.setName(user.getName().trim());
-        if (resendMailDTO.getType().equals("activate")) {
+        if (resendMailDTO.getType().equals("activate-account")) {
             mailDTO.setSubject("Activate account");
             mailDTO.setTemplate("activate-account");
         }

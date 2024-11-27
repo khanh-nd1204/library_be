@@ -32,7 +32,7 @@ spring:
     password: password
     host: smtp.gmail.com
     port: 587
-    expiry-in-seconds: 300
+    expiry-validity-in-seconds: 300
     properties:
       mail:
         smtp:

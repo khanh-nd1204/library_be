@@ -32,7 +32,4 @@ public class CreateUserDTO {
     @NotBlank(message = "Phone is required")
     @Pattern(regexp = "\\d{10}", message = "Phone must be exactly 10 digits")
     private String phone;
-
-    @NotNull(message = "Role is required")
-    private Long roleId;
 }

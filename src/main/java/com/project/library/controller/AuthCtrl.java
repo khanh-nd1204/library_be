@@ -10,6 +10,7 @@ import com.project.library.service.UserService;
 import com.project.library.util.NotFoundException;
 import com.project.library.util.UnauthorizedException;
 import jakarta.validation.Valid;
+import org.apache.coyote.BadRequestException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpHeaders;
@@ -96,8 +97,9 @@ public class AuthCtrl {
     @GetMapping("/refresh")
     public ResponseEntity<ResponseObject> getRefreshToken(
             @CookieValue(name = "refreshToken") String refreshToken) throws Exception {
+        System.out.println(refreshToken);
         if (refreshToken == null) {
-            throw new UnauthorizedException("Invalid refresh token");
+            throw new BadRequestException("Invalid refresh token");
         }
 
         Jwt decodedToken = securityService.checkValidRefreshToken(refreshToken);
@@ -105,7 +107,7 @@ public class AuthCtrl {
 
         UserEntity user = userService.getUserByEmailAndRefreshToken(email, refreshToken);
         if (user == null) {
-            throw new UnauthorizedException("Invalid refresh token");
+            throw new BadRequestException("Invalid refresh token");
         }
 
         AuthDTO authDTO = new AuthDTO();
