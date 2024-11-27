@@ -59,6 +59,9 @@ public class BookEntity {
     @OneToMany(mappedBy = "book", fetch = FetchType.LAZY, cascade = {CascadeType.PERSIST, CascadeType.MERGE})
     List<ImageEntity> images;
 
+    @ManyToMany(mappedBy = "books", fetch = FetchType.LAZY, cascade = {CascadeType.PERSIST, CascadeType.MERGE})
+    private List<BorrowEntity> borrows;
+
     @PrePersist
     public void prePersist() {
         this.createdAt = Instant.now();

@@ -1,6 +1,6 @@
 package com.project.library.controller;
 
-import com.project.library.dto.FileDTO;
+import com.project.library.dto.ImageDTO;
 import com.project.library.dto.ResponseObject;
 import com.project.library.service.FileService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,9 +23,9 @@ public class FileCtrl {
     public ResponseEntity<ResponseObject> uploadFile(
             @RequestParam("file") MultipartFile file, @RequestParam("folder") String folder) throws Exception {
         fileService.validate(file, folder);
-        FileDTO fileDTO = fileService.store(file, folder);
+        ImageDTO imageDTO = fileService.store(file, folder);
         ResponseObject res = new ResponseObject(HttpStatus.OK.value(),
-                "File upload successfully", fileDTO, null
+                "File upload successfully", imageDTO, null
         );
         return new ResponseEntity<>(res, HttpStatus.OK);
     }

@@ -1,4 +1,4 @@
-package com.project.library.dto;
+package com.project.library.dto.borrow;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -11,7 +11,10 @@ import org.springframework.stereotype.Component;
 @NoArgsConstructor
 @AllArgsConstructor
 @Component
-public class FileDTO {
-    private String fileName;
-    private String filePath;
+public class BorrowUserDTO {
+    private Long id;
+    private String name;
+    private String email;
+    private String address;
+    private String phone;
 }

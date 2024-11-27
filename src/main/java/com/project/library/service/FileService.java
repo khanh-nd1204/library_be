@@ -1,7 +1,10 @@
 package com.project.library.service;
 
-import com.project.library.dto.FileDTO;
+import com.project.library.dto.ImageDTO;
+import com.project.library.entity.ImageEntity;
+import com.project.library.repository.ImageRepo;
 import com.project.library.util.FileStoreException;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
@@ -25,6 +28,9 @@ public class FileService {
     @Value("${file.upload.base-uri}")
     private String baseUri;
 
+    @Autowired
+    private ImageRepo imageRepo;
+
     public String generateUniqueFileName(String originalFileName) {
         String fileExtension = "";
         int dotIndex = originalFileName.lastIndexOf('.');
@@ -34,7 +40,7 @@ public class FileService {
         return UUID.randomUUID() + fileExtension;
     }
 
-    public FileDTO store(MultipartFile file, String folder) throws URISyntaxException, IOException {
+    public ImageDTO store(MultipartFile file, String folder) throws URISyntaxException, IOException {
         String finalName = generateUniqueFileName(file.getOriginalFilename());
         URI uri = new URI(baseUri + folder + "/" + finalName);
         Path path = Paths.get(uri);
@@ -42,7 +48,10 @@ public class FileService {
             Files.copy(inputStream, path,
                     StandardCopyOption.REPLACE_EXISTING);
         }
-        return new FileDTO(finalName, baseUri + folder + "/" + finalName);
+        ImageEntity image = new ImageEntity();
+        image.setImageUrl(baseUri + folder + "/" + finalName);
+        imageRepo.save(image);
+        return new ImageDTO(image.getId(), image.getImageUrl());
     }
 
     public void validate(MultipartFile file, String folder) throws URISyntaxException {
@@ -61,7 +70,7 @@ public class FileService {
         }
 
         String fileName = file.getOriginalFilename();
-        List<String> allowedExtensions = Arrays.asList("pdf", "jpg", "jpeg", "png");
+        List<String> allowedExtensions = Arrays.asList("jpg", "jpeg", "png");
         boolean isValidExtension = allowedExtensions.stream().anyMatch(ext ->
                 fileName.toLowerCase().endsWith("." + ext));
         if (!isValidExtension) {

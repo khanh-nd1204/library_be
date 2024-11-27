@@ -34,7 +34,8 @@ public class PermissionInterceptor implements HandlerInterceptor {
             return true;
         }
 
-        String email = SecurityService.getCurrentUserLogin().orElse(null);
+        String email = SecurityService.getCurrentUserLogin()
+                .orElseThrow(() -> new UnauthorizedException("No user is logged in"));
         if (email != null && !email.isEmpty()) {
             UserEntity user = userService.getUserByEmail(email);
             if (user != null) {
@@ -60,11 +61,10 @@ public class PermissionInterceptor implements HandlerInterceptor {
         if ("GET".equals(httpMethod) && "/api/v1/auth/activate".equals(path)) return true;
         if ("GET".equals(httpMethod) && "/api/v1/auth/reset-password".equals(path)) return true;
         if ("GET".equals(httpMethod) && "/api/v1/auth/resend-mail".equals(path)) return true;
-        if (path.startsWith("/api/v1/authors")) return true;
-        if (path.startsWith("/api/v1/publishers")) return true;
-        if (path.startsWith("/api/v1/categories")) return true;
-        if (path.startsWith("/api/v1/books")) return true;
-        if (path.startsWith("/api/v1/images")) return true;
+        if ("GET".equals(httpMethod) && "/api/v1/authors".equals(path)) return true;
+        if ("GET".equals(httpMethod) && "/api/v1/categories".equals(path)) return true;
+        if ("GET".equals(httpMethod) && "/api/v1/publishers".equals(path)) return true;
+        if ("GET".equals(httpMethod) && "/api/v1/books".equals(path)) return true;
         return false;
     }
 }

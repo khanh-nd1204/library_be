@@ -64,7 +64,7 @@ public class GlobalExceptionHandler {
         return new ResponseEntity<>(res, HttpStatus.BAD_REQUEST);
     }
 
-    @ExceptionHandler({PropertyReferenceException.class, InvalidDataAccessApiUsageException.class})
+    @ExceptionHandler({PropertyReferenceException.class, InvalidDataAccessApiUsageException.class, NullPointerException.class})
     public ResponseEntity<ResponseObject> handleQueryParamsException(Exception e) {
         ResponseObject res = new ResponseObject(
                 HttpStatus.BAD_REQUEST.value(),

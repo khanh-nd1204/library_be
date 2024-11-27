@@ -6,7 +6,6 @@ import com.project.library.dto.book.BookDTO;
 import com.project.library.dto.book.CreateBookDTO;
 import com.project.library.dto.book.UpdateBookDTO;
 import com.project.library.entity.BookEntity;
-import com.project.library.entity.ImageEntity;
 import com.project.library.service.BookService;
 import com.turkraft.springfilter.boot.Filter;
 import jakarta.validation.Valid;

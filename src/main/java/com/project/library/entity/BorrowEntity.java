@@ -12,21 +12,23 @@ import java.time.Instant;
 import java.util.List;
 
 @Entity
-@Table(name = "roles")
+@Table(name = "borrows")
 @Data
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
 @Component
-public class RoleEntity {
+public class BorrowEntity {
     @Id
     @Column(name = "id", nullable = false, unique = true)
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    @Column(name = "name", nullable = false, unique = true, length = 100)
-    private String name;
-    @Column(name = "description", nullable = false)
-    private String description;
+    @Column(name = "borrow_date", nullable = false)
+    private Instant borrowDate;
+    @Column(name = "return_date", nullable = false)
+    private Instant returnDate;
+    @Column(name = "status", nullable = false)
+    private Integer status;
     @Column(name = "created_at")
     private Instant createdAt;
     @Column(name = "created_by")
@@ -36,13 +38,14 @@ public class RoleEntity {
     @Column(name = "updated_by")
     private String updatedBy;
 
-    @ManyToMany(fetch = FetchType.LAZY, cascade = {CascadeType.PERSIST, CascadeType.MERGE})
-    @JoinTable(name = "role_permission", joinColumns = @JoinColumn(name = "role_id"),
-            inverseJoinColumns = @JoinColumn(name = "permission_id"))
-    private List<PermissionEntity> permissions;
+    @ManyToOne
+    @JoinColumn(name = "user_id")
+    private UserEntity user;
 
-    @OneToMany(mappedBy = "role", fetch = FetchType.LAZY, cascade = {CascadeType.PERSIST, CascadeType.MERGE})
-    List<UserEntity> users;
+    @ManyToMany(fetch = FetchType.LAZY, cascade = {CascadeType.PERSIST, CascadeType.MERGE})
+    @JoinTable(name = "borrow_book", joinColumns = @JoinColumn(name = "borrow_id"),
+            inverseJoinColumns = @JoinColumn(name = "book_id"))
+    private List<BookEntity> books;
 
     @PrePersist
     public void prePersist() {
