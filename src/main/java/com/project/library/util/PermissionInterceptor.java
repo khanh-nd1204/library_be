@@ -59,13 +59,15 @@ public class PermissionInterceptor implements HandlerInterceptor {
         if ("POST".equals(httpMethod) && "/api/v1/auth/logout".equals(path)) return true;
         if ("POST".equals(httpMethod) && "/api/v1/auth/register".equals(path)) return true;
         if ("GET".equals(httpMethod) && "/api/v1/auth/refresh".equals(path)) return true;
-        if ("GET".equals(httpMethod) && "/api/v1/auth/activate".equals(path)) return true;
-        if ("GET".equals(httpMethod) && "/api/v1/auth/reset-password".equals(path)) return true;
-        if ("GET".equals(httpMethod) && "/api/v1/auth/resend-mail".equals(path)) return true;
+        if ("GET".equals(httpMethod) && "/api/v1/auth".equals(path)) return true;
+        if ("POST".equals(httpMethod) && "/api/v1/auth/activate".equals(path)) return true;
+        if ("POST".equals(httpMethod) && "/api/v1/auth/reset-password".equals(path)) return true;
+        if ("POST".equals(httpMethod) && "/api/v1/auth/resend-mail".equals(path)) return true;
         if ("GET".equals(httpMethod) && "/api/v1/authors".equals(path)) return true;
         if ("GET".equals(httpMethod) && "/api/v1/categories".equals(path)) return true;
         if ("GET".equals(httpMethod) && "/api/v1/publishers".equals(path)) return true;
         if ("GET".equals(httpMethod) && "/api/v1/books".equals(path)) return true;
+        if ("POST".equals(httpMethod) && "/api/v1/users/change-password".equals(path)) return true;
         return false;
     }
 }

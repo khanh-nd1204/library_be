@@ -51,6 +51,7 @@ public class SecurityConfig {
                         .requestMatchers(HttpMethod.POST, "/api/v1/auth/activate").permitAll()
                         .requestMatchers(HttpMethod.POST, "/api/v1/auth/reset-password").permitAll()
                         .requestMatchers(HttpMethod.POST, "/api/v1/auth/resend-mail").permitAll()
+                        .requestMatchers(HttpMethod.GET, "/api/v1/auth").permitAll()
                         .requestMatchers(HttpMethod.GET, "/api/v1/auth/refresh").permitAll()
                         .requestMatchers(HttpMethod.GET, "/api/v1/authors").permitAll()
                         .requestMatchers(HttpMethod.GET, "/api/v1/publishers").permitAll()

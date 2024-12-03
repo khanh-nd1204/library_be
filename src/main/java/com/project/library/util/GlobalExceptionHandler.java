@@ -32,7 +32,7 @@ public class GlobalExceptionHandler {
     public ResponseEntity<ResponseObject> handleException(Exception e) {
         ResponseObject res = new ResponseObject(
                 HttpStatus.INTERNAL_SERVER_ERROR.value(),
-                e.getMessage(),null,"Internal server error"
+                "An error occurred, please try again",null,"Internal server error"
         );
         return new ResponseEntity<>(res, HttpStatus.INTERNAL_SERVER_ERROR);
     }

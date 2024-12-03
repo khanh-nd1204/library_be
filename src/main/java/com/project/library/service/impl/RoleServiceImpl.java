@@ -2,6 +2,7 @@ package com.project.library.service.impl;
 
 import com.project.library.dto.PageDTO;
 import com.project.library.dto.role.*;
+import com.project.library.entity.ImageEntity;
 import com.project.library.entity.PermissionEntity;
 import com.project.library.entity.RoleEntity;
 import com.project.library.repository.PermissionRepo;
@@ -96,13 +97,10 @@ public class RoleServiceImpl implements RoleService {
         roleDTO.setDescription(role.getDescription());
         roleDTO.setCreatedAt(role.getCreatedAt());
         roleDTO.setUpdatedAt(role.getUpdatedAt());
-        List<RolePermissionDTO> permissions = new ArrayList<>();
-        role.getPermissions().forEach(permission -> {
-            RolePermissionDTO rolePermissionDTO = new RolePermissionDTO();
-            rolePermissionDTO.setId(permission.getId());
-            rolePermissionDTO.setName(permission.getName());
-            permissions.add(rolePermissionDTO);
-        });
+        List<Long> permissions = role.getPermissions().stream()
+                .map(PermissionEntity::getId)
+                .collect(Collectors.toList());
+        roleDTO.setPermissions(permissions);
         roleDTO.setPermissions(permissions);
         return roleDTO;
     }

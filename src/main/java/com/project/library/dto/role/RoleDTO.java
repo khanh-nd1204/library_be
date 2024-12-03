@@ -23,5 +23,5 @@ public class RoleDTO {
     private Instant createdAt;
     @JsonFormat(pattern = "HH:mm:ss dd/MM/yyyy", timezone = "GMT+7")
     private Instant updatedAt;
-    private List<RolePermissionDTO> permissions;
+    private List<Long> permissions;
 }
