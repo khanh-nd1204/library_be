@@ -25,6 +25,12 @@ public class PublisherEntity {
     private Long id;
     @Column(name = "name", nullable = false, length = 100)
     private String name;
+    @Column(name = "address", nullable = false, length = 100)
+    private String address;
+    @Column(name = "email", nullable = false, unique = true, length = 100)
+    private String email;
+    @Column(name = "phone", nullable = false, unique = true, length = 10)
+    private String phone;
     @Column(name = "created_at")
     private Instant createdAt;
     @Column(name = "created_by")

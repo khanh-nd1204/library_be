@@ -273,7 +273,7 @@ public class UserServiceImpl implements UserService {
         }
 
         String newPassword = passwordEncoder.encode(changePasswordDTO.getNewPassword());
-        user.setPassword(newPassword);
+        user.setPassword(newPassword.trim());
         userRepo.save(user);
     }
 

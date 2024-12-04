@@ -21,4 +21,11 @@ public class UpdateAuthorDTO {
     @NotBlank(message = "Name is required")
     @Size(max = 100, message = "Name must be less than 100 characters")
     private String name;
+
+    @NotBlank(message = "Nationality is required")
+    @Size(max = 100, message = "Nationality must be less than 100 characters")
+    private String nationality;
+
+    @Size(max = 100, message = "Pen name must be less than 100 characters")
+    private String penName;
 }

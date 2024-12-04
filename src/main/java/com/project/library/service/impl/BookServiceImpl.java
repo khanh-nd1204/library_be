@@ -39,8 +39,8 @@ public class BookServiceImpl implements BookService {
     @Override
     public BookDTO createBook(CreateBookDTO createBookDTO) throws Exception {
         BookEntity book = new BookEntity();
-        book.setName(createBookDTO.getName());
-        book.setDescription(createBookDTO.getDescription());
+        book.setName(createBookDTO.getName().trim());
+        book.setDescription(createBookDTO.getDescription().trim());
         book.setPublishYear(createBookDTO.getPublishYear());
         book.setQuantity(createBookDTO.getQuantity());
         book.setActive(true);
@@ -68,8 +68,8 @@ public class BookServiceImpl implements BookService {
     public BookDTO updateBook(UpdateBookDTO updateBookDTO) throws Exception {
         BookEntity book = bookRepo.findById(updateBookDTO.getId())
                 .orElseThrow(() -> new NotFoundException("Book not found"));
-        book.setName(updateBookDTO.getName());
-        book.setDescription(updateBookDTO.getDescription());
+        book.setName(updateBookDTO.getName().trim());
+        book.setDescription(updateBookDTO.getDescription().trim());
         book.setPublishYear(updateBookDTO.getPublishYear());
         book.setQuantity(updateBookDTO.getQuantity());
 

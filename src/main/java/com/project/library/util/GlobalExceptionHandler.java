@@ -32,7 +32,7 @@ public class GlobalExceptionHandler {
     public ResponseEntity<ResponseObject> handleException(Exception e) {
         ResponseObject res = new ResponseObject(
                 HttpStatus.INTERNAL_SERVER_ERROR.value(),
-                "An error occurred, please try again",null,"Internal server error"
+                "An error occurred, please try again", null, "Internal server error"
         );
         return new ResponseEntity<>(res, HttpStatus.INTERNAL_SERVER_ERROR);
     }
@@ -41,7 +41,7 @@ public class GlobalExceptionHandler {
     public ResponseEntity<ResponseObject> handleResourceNotFoundException(NoResourceFoundException e) {
         ResponseObject res = new ResponseObject(
                 HttpStatus.NOT_FOUND.value(),
-                e.getMessage(),null,"No resources found"
+                e.getMessage(), null, "No resources found"
         );
         return new ResponseEntity<>(res, HttpStatus.NOT_FOUND);
     }
@@ -50,7 +50,7 @@ public class GlobalExceptionHandler {
     public ResponseEntity<ResponseObject> handleNotFoundException(Exception e) {
         ResponseObject res = new ResponseObject(
                 HttpStatus.NOT_FOUND.value(),
-                e.getMessage(),null, "Not found"
+                e.getMessage(), null, "Not found"
         );
         return new ResponseEntity<>(res, HttpStatus.NOT_FOUND);
     }
@@ -59,7 +59,7 @@ public class GlobalExceptionHandler {
     public ResponseEntity<ResponseObject> handleBadRequestException(Exception e) {
         ResponseObject res = new ResponseObject(
                 HttpStatus.BAD_REQUEST.value(),
-                e.getMessage(),null,"Bad request"
+                e.getMessage(), null, "Bad request"
         );
         return new ResponseEntity<>(res, HttpStatus.BAD_REQUEST);
     }
@@ -68,7 +68,7 @@ public class GlobalExceptionHandler {
     public ResponseEntity<ResponseObject> handleQueryParamsException(Exception e) {
         ResponseObject res = new ResponseObject(
                 HttpStatus.BAD_REQUEST.value(),
-                "Invalid query params",null,"Bad request"
+                "Invalid query params", null, "Bad request"
         );
         return new ResponseEntity<>(res, HttpStatus.BAD_REQUEST);
     }
@@ -78,7 +78,7 @@ public class GlobalExceptionHandler {
         String message = String.format("Invalid parameter %s", e.getName());
         ResponseObject res = new ResponseObject(
                 HttpStatus.BAD_REQUEST.value(),
-                message,null,"Bad request"
+                message, null, "Bad request"
         );
         return new ResponseEntity<>(res, HttpStatus.BAD_REQUEST);
     }
@@ -103,7 +103,7 @@ public class GlobalExceptionHandler {
     public ResponseEntity<ResponseObject> handleHttpMessageNotReadableException(HttpMessageNotReadableException e) {
         ResponseObject res = new ResponseObject(
                 HttpStatus.BAD_REQUEST.value(),
-                "Invalid request body",null,"Bad request"
+                "Invalid request body", null, "Bad request"
         );
         return new ResponseEntity<>(res, HttpStatus.BAD_REQUEST);
     }
@@ -112,7 +112,7 @@ public class GlobalExceptionHandler {
     public ResponseEntity<ResponseObject> handleUnauthorizedException(Exception e) {
         ResponseObject res = new ResponseObject(
                 HttpStatus.UNAUTHORIZED.value(),
-                e.getMessage(),null,"Authentication error"
+                e.getMessage(), null, "Authentication error"
         );
         return new ResponseEntity<>(res, HttpStatus.UNAUTHORIZED);
     }
@@ -121,7 +121,7 @@ public class GlobalExceptionHandler {
     public ResponseEntity<ResponseObject> handleFileException(Exception e) {
         ResponseObject res = new ResponseObject(
                 HttpStatus.BAD_REQUEST.value(),
-                e.getMessage(),null,"File upload error"
+                e.getMessage(), null, "File upload error"
         );
         return new ResponseEntity<>(res, HttpStatus.BAD_REQUEST);
     }
@@ -131,7 +131,7 @@ public class GlobalExceptionHandler {
         String message = String.format("Request parameter %s is missing", e.getParameterName());
         ResponseObject res = new ResponseObject(
                 HttpStatus.BAD_REQUEST.value(),
-                message,null,"Bad request"
+                message, null, "Bad request"
         );
         return new ResponseEntity<>(res, HttpStatus.BAD_REQUEST);
     }
@@ -141,7 +141,7 @@ public class GlobalExceptionHandler {
         String message = String.format("Required part %s is not present", e.getRequestPartName());
         ResponseObject res = new ResponseObject(
                 HttpStatus.BAD_REQUEST.value(),
-                message,null,"Bad request"
+                message, null, "Bad request"
         );
         return new ResponseEntity<>(res, HttpStatus.BAD_REQUEST);
     }
@@ -150,7 +150,7 @@ public class GlobalExceptionHandler {
     public ResponseEntity<ResponseObject> handleForbiddenException(ForbiddenException e) {
         ResponseObject res = new ResponseObject(
                 HttpStatus.FORBIDDEN.value(),
-                e.getMessage(),null,"Forbidden"
+                e.getMessage(), null, "Forbidden"
         );
         return new ResponseEntity<>(res, HttpStatus.FORBIDDEN);
     }

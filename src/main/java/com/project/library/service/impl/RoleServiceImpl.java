@@ -2,7 +2,6 @@ package com.project.library.service.impl;
 
 import com.project.library.dto.PageDTO;
 import com.project.library.dto.role.*;
-import com.project.library.entity.ImageEntity;
 import com.project.library.entity.PermissionEntity;
 import com.project.library.entity.RoleEntity;
 import com.project.library.repository.PermissionRepo;
@@ -16,7 +15,6 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 

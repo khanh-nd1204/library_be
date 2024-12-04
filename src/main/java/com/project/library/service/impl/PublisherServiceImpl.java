@@ -1,13 +1,20 @@
 package com.project.library.service.impl;
 
+import com.project.library.dto.PageDTO;
+import com.project.library.dto.author.AuthorDTO;
 import com.project.library.dto.publisher.CreatePublisherDTO;
 import com.project.library.dto.publisher.PublisherDTO;
 import com.project.library.dto.publisher.UpdatePublisherDTO;
+import com.project.library.entity.AuthorEntity;
 import com.project.library.entity.PublisherEntity;
 import com.project.library.repository.PublisherRepo;
 import com.project.library.service.PublisherService;
 import com.project.library.util.NotFoundException;
+import org.apache.coyote.BadRequestException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -22,8 +29,19 @@ public class PublisherServiceImpl implements PublisherService {
 
     @Override
     public PublisherDTO createPublisher(CreatePublisherDTO createPublisherDTO) throws Exception {
+        if (publisherRepo.existsByPhone(createPublisherDTO.getPhone())) {
+            throw new BadRequestException("Phone is already exist");
+        }
+
+        if (publisherRepo.existsByEmail(createPublisherDTO.getEmail())) {
+            throw new BadRequestException("Email is already exist");
+        }
+
         PublisherEntity publisher = new PublisherEntity();
-        publisher.setName(createPublisherDTO.getName());
+        publisher.setName(createPublisherDTO.getName().trim());
+        publisher.setAddress(createPublisherDTO.getAddress().trim());
+        publisher.setEmail(createPublisherDTO.getEmail().trim());
+        publisher.setPhone(createPublisherDTO.getPhone().trim());
         return convertDTO(publisherRepo.save(publisher));
     }
 
@@ -31,7 +49,16 @@ public class PublisherServiceImpl implements PublisherService {
     public PublisherDTO updatePublisher(UpdatePublisherDTO updatePublisherDTO) throws Exception {
         PublisherEntity publisher = publisherRepo.findById(updatePublisherDTO.getId())
                 .orElseThrow(() -> new NotFoundException("Publisher not found"));
-        publisher.setName(updatePublisherDTO.getName());
+        if (publisherRepo.existsByPhone(updatePublisherDTO.getPhone()) && !publisher.getPhone().equals(updatePublisherDTO.getPhone())) {
+            throw new BadRequestException("Phone is already exist");
+        }
+        if (publisherRepo.existsByEmail(updatePublisherDTO.getEmail()) && !publisher.getEmail().equals(updatePublisherDTO.getEmail())) {
+            throw new BadRequestException("Email is already exist");
+        }
+        publisher.setName(updatePublisherDTO.getName().trim());
+        publisher.setAddress(updatePublisherDTO.getAddress().trim());
+        publisher.setPhone(updatePublisherDTO.getPhone().trim());
+        publisher.setEmail(updatePublisherDTO.getEmail().trim());
         return convertDTO(publisherRepo.save(publisher));
     }
 
@@ -43,13 +70,21 @@ public class PublisherServiceImpl implements PublisherService {
     }
 
     @Override
-    @Transactional(readOnly = true)
-    public List<PublisherDTO> getPublishers() throws Exception {
-        List<PublisherEntity> list = publisherRepo.findAll();
-        return list.stream()
+    public PageDTO getPublishers(Specification<PublisherEntity> spec, Pageable pageable) throws Exception {
+        Page<PublisherEntity> pageData = publisherRepo.findAll(spec, pageable);
+        PageDTO pageDTO = new PageDTO();
+        pageDTO.setPage(pageable.getPageNumber() + 1);
+        pageDTO.setSize(pageable.getPageSize());
+        pageDTO.setTotalElements(pageData.getTotalElements());
+        pageDTO.setTotalPages(pageData.getTotalPages());
+        List<PublisherDTO> publisherDTOS = pageData.getContent()
+                .stream()
                 .map(PublisherServiceImpl::convertDTO)
-                .collect(Collectors.toList());
+                .toList();
+        pageDTO.setData(publisherDTOS);
+        return pageDTO;
     }
+
 
     @Override
     public void deletePublisher(Long id) throws Exception {
@@ -64,6 +99,9 @@ public class PublisherServiceImpl implements PublisherService {
         PublisherDTO publisherDTO = new PublisherDTO();
         publisherDTO.setId(publisher.getId());
         publisherDTO.setName(publisher.getName());
+        publisherDTO.setAddress(publisher.getAddress());
+        publisherDTO.setEmail(publisher.getEmail());
+        publisherDTO.setPhone(publisher.getPhone());
         publisherDTO.setCreatedAt(publisher.getCreatedAt());
         publisherDTO.setUpdatedAt(publisher.getUpdatedAt());
         return publisherDTO;

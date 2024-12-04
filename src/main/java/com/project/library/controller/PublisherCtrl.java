@@ -1,17 +1,20 @@
 package com.project.library.controller;
 
+import com.project.library.dto.PageDTO;
 import com.project.library.dto.ResponseObject;
 import com.project.library.dto.publisher.CreatePublisherDTO;
 import com.project.library.dto.publisher.PublisherDTO;
 import com.project.library.dto.publisher.UpdatePublisherDTO;
+import com.project.library.entity.PublisherEntity;
 import com.project.library.service.PublisherService;
+import com.turkraft.springfilter.boot.Filter;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.List;
 
 @RestController
 @RequestMapping("api/v1/publishers")
@@ -39,10 +42,11 @@ public class PublisherCtrl {
     }
 
     @GetMapping
-    public ResponseEntity<ResponseObject> getPublishers() throws Exception {
-        List<PublisherDTO> publishers = publisherService.getPublishers();
+    public ResponseEntity<ResponseObject> getPublishers(
+            @Filter Specification<PublisherEntity> spec, Pageable pageable) throws Exception {
+        PageDTO pageDTO = publisherService.getPublishers(spec, pageable);
         ResponseObject res = new ResponseObject(HttpStatus.OK.value(),
-                "Publishers fetched successfully", publishers, null
+                "Publishers fetched successfully", pageDTO, null
         );
         return new ResponseEntity<>(res, HttpStatus.OK);
     }

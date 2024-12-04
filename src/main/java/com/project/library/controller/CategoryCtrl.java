@@ -1,17 +1,20 @@
 package com.project.library.controller;
 
+import com.project.library.dto.PageDTO;
 import com.project.library.dto.ResponseObject;
 import com.project.library.dto.category.CategoryDTO;
 import com.project.library.dto.category.CreateCategoryDTO;
 import com.project.library.dto.category.UpdateCategoryDTO;
+import com.project.library.entity.CategoryEntity;
 import com.project.library.service.CategoryService;
+import com.turkraft.springfilter.boot.Filter;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.List;
 
 @RestController
 @RequestMapping("api/v1/categories")
@@ -39,10 +42,11 @@ public class CategoryCtrl {
     }
 
     @GetMapping
-    public ResponseEntity<ResponseObject> getCategories() throws Exception {
-        List<CategoryDTO> categories = categoryService.getCategories();
+    public ResponseEntity<ResponseObject> getCategories(
+            @Filter Specification<CategoryEntity> spec, Pageable pageable) throws Exception {
+        PageDTO pageDTO = categoryService.getCategories(spec, pageable);
         ResponseObject res = new ResponseObject(HttpStatus.OK.value(),
-                "Categories fetched successfully", categories, null
+                "Categories fetched successfully", pageDTO, null
         );
         return new ResponseEntity<>(res, HttpStatus.OK);
     }

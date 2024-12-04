@@ -25,6 +25,10 @@ public class AuthorEntity {
     private Long id;
     @Column(name = "name", nullable = false, length = 100)
     private String name;
+    @Column(name = "nationality", nullable = false, length = 100)
+    private String nationality;
+    @Column(name = "pen_name", length = 100)
+    private String penName;
     @Column(name = "created_at")
     private Instant createdAt;
     @Column(name = "created_by")

@@ -17,6 +17,7 @@ import java.time.Instant;
 public class CategoryDTO {
     private Long id;
     private String name;
+    private String description;
     @JsonFormat(pattern = "HH:mm:ss dd/MM/yyyy", timezone = "GMT+7")
     private Instant createdAt;
     @JsonFormat(pattern = "HH:mm:ss dd/MM/yyyy", timezone = "GMT+7")

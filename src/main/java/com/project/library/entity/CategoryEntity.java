@@ -25,6 +25,8 @@ public class CategoryEntity {
     private Long id;
     @Column(name = "name", nullable = false, unique = true, length = 100)
     private String name;
+    @Column(name = "description", nullable = false, length = 100)
+    private String description;
     @Column(name = "created_at")
     private Instant createdAt;
     @Column(name = "created_by")

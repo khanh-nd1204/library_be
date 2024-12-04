@@ -55,8 +55,8 @@ public class SecurityConfig {
                         .requestMatchers(HttpMethod.GET, "/api/v1/auth/refresh").permitAll()
                         .requestMatchers(HttpMethod.GET, "/api/v1/authors").permitAll()
                         .requestMatchers(HttpMethod.GET, "/api/v1/publishers").permitAll()
-                        .requestMatchers(HttpMethod.GET,"/api/v1/categories").permitAll()
-                        .requestMatchers(HttpMethod.GET,"/api/v1/books").permitAll()
+                        .requestMatchers(HttpMethod.GET, "/api/v1/categories").permitAll()
+                        .requestMatchers(HttpMethod.GET, "/api/v1/books").permitAll()
                         .anyRequest().authenticated())
                 .oauth2ResourceServer(oauth2 -> oauth2
                         .jwt(Customizer.withDefaults())

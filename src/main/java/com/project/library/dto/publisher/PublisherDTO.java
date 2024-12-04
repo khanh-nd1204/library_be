@@ -17,6 +17,9 @@ import java.time.Instant;
 public class PublisherDTO {
     private Long id;
     private String name;
+    private String email;
+    private String phone;
+    private String address;
     @JsonFormat(pattern = "HH:mm:ss dd/MM/yyyy", timezone = "GMT+7")
     private Instant createdAt;
     @JsonFormat(pattern = "HH:mm:ss dd/MM/yyyy", timezone = "GMT+7")
