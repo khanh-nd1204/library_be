@@ -8,6 +8,7 @@ import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -21,13 +22,10 @@ public class UserDetailsServiceImpl implements UserDetailsService {
 
     @Override
     @Transactional(readOnly = true)
-    public UserDetails loadUserByUsername(String username) throws UnauthorizedException {
+    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         UserEntity user = userService.getUserByEmail(username);
         if (user == null) {
-            throw new UnauthorizedException("Invalid email or password");
-        }
-        if (!user.isActive()) {
-            throw new UnauthorizedException("User account is inactive");
+            throw new UsernameNotFoundException("Bad credentials");
         }
         return new User(user.getEmail(), user.getPassword(),
                 Collections.singletonList(new SimpleGrantedAuthority(user.getRole().getName()))

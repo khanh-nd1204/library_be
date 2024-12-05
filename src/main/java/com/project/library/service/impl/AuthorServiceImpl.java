@@ -8,7 +8,6 @@ import com.project.library.entity.AuthorEntity;
 import com.project.library.repository.AuthorRepo;
 import com.project.library.service.AuthorService;
 import com.project.library.util.NotFoundException;
-import org.apache.coyote.BadRequestException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;

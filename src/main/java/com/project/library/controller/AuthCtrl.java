@@ -55,6 +55,11 @@ public class AuthCtrl {
 
             AuthDTO authDTO = new AuthDTO();
             UserEntity user = userService.getUserByEmail(authLoginDTO.getUsername());
+            if (!user.isActive()) {
+                ResponseObject res = new ResponseObject(HttpStatus.NOT_FOUND.value(),
+                        "User is inactive", null, "Not found");
+                return new ResponseEntity<>(res, HttpStatus.NOT_FOUND);
+            }
             authDTO.setUser(convertDTO(user));
 
             String accessToken = securityService.createToken(authDTO.getUser(), accessTokenValidityInSeconds);
