@@ -24,6 +24,8 @@ public class ImageEntity {
     private Long id;
     @Column(name = "image_url", nullable = false)
     private String imageUrl;
+    @Column(name = "folder", nullable = false)
+    private String folder;
     @Column(name = "created_at")
     private Instant createdAt;
     @Column(name = "created_by")

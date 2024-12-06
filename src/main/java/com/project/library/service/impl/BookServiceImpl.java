@@ -1,9 +1,8 @@
 package com.project.library.service.impl;
 
+import com.project.library.dto.ImageDTO;
 import com.project.library.dto.PageDTO;
-import com.project.library.dto.book.BookDTO;
-import com.project.library.dto.book.CreateBookDTO;
-import com.project.library.dto.book.UpdateBookDTO;
+import com.project.library.dto.book.*;
 import com.project.library.entity.*;
 import com.project.library.repository.*;
 import com.project.library.service.BookService;
@@ -15,6 +14,7 @@ import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -53,8 +53,12 @@ public class BookServiceImpl implements BookService {
                 categoryRepo.findById(category).orElseThrow(() -> new NotFoundException("Category not found with id: " + category))).collect(Collectors.toList());
         book.setCategories(categories);
 
-        List<ImageEntity> images = createBookDTO.getImages().stream().map(image ->
-                imageRepo.findById(image).orElseThrow(() -> new NotFoundException("Image not found with id: " + image))).collect(Collectors.toList());
+        List<ImageEntity> images = createBookDTO.getImages().stream().map(imageId -> {
+            ImageEntity image = imageRepo.findById(imageId)
+                    .orElseThrow(() -> new NotFoundException("Image not found with id: " + imageId));
+            image.setBook(book);
+            return image;
+        }).collect(Collectors.toList());
         book.setImages(images);
 
         PublisherEntity publisher = publisherRepo.findById(createBookDTO.getPublisherId())
@@ -81,8 +85,12 @@ public class BookServiceImpl implements BookService {
                 categoryRepo.findById(category).orElseThrow(() -> new NotFoundException("Category not found with id: " + category))).collect(Collectors.toList());
         book.setCategories(categories);
 
-        List<ImageEntity> images = updateBookDTO.getImages().stream().map(image ->
-                imageRepo.findById(image).orElseThrow(() -> new NotFoundException("Image not found with id: " + image))).collect(Collectors.toList());
+        List<ImageEntity> images = updateBookDTO.getImages().stream().map(imageId -> {
+            ImageEntity image = imageRepo.findById(imageId)
+                    .orElseThrow(() -> new NotFoundException("Image not found with id: " + imageId));
+            image.setBook(book);
+            return image;
+        }).collect(Collectors.toList());
         book.setImages(images);
 
         PublisherEntity publisher = publisherRepo.findById(updateBookDTO.getPublisherId())
@@ -134,22 +142,38 @@ public class BookServiceImpl implements BookService {
         bookDTO.setCreatedAt(book.getCreatedAt());
         bookDTO.setUpdatedAt(book.getUpdatedAt());
 
-        List<String> authors = book.getAuthors().stream()
-                .map(AuthorEntity::getName)
-                .collect(Collectors.toList());
+        List<BookAuthorDTO> authors = new ArrayList<>();
+        book.getAuthors().forEach(author -> {
+            BookAuthorDTO authorDTO = new BookAuthorDTO();
+            authorDTO.setId(author.getId());
+            authorDTO.setName(author.getName());
+            authors.add(authorDTO);
+        });
         bookDTO.setAuthors(authors);
 
-        List<String> categories = book.getCategories().stream()
-                .map(CategoryEntity::getName)
-                .collect(Collectors.toList());
+        List<BookCategoryDTO> categories = new ArrayList<>();
+        book.getCategories().forEach(category -> {
+            BookCategoryDTO categoryDTO = new BookCategoryDTO();
+            categoryDTO.setId(category.getId());
+            categoryDTO.setName(category.getName());
+            categories.add(categoryDTO);
+        });
         bookDTO.setCategories(categories);
 
-        List<String> images = book.getImages().stream()
-                .map(ImageEntity::getImageUrl)
-                .collect(Collectors.toList());
+        List<ImageDTO> images = new ArrayList<>();
+        book.getImages().forEach(image -> {
+            ImageDTO imageDTO = new ImageDTO();
+            imageDTO.setId(image.getId());
+            imageDTO.setImageUrl(image.getImageUrl());
+            imageDTO.setFolder(image.getFolder());
+            images.add(imageDTO);
+        });
         bookDTO.setImages(images);
 
-        bookDTO.setPublisher(book.getPublisher().getName());
+        BookPublisherDTO publisherDTO = new BookPublisherDTO();
+        publisherDTO.setId(book.getPublisher().getId());
+        publisherDTO.setName(book.getPublisher().getName());
+        bookDTO.setPublisher(publisherDTO);
         return bookDTO;
     }
 }

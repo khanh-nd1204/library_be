@@ -49,9 +49,10 @@ public class FileService {
                     StandardCopyOption.REPLACE_EXISTING);
         }
         ImageEntity image = new ImageEntity();
-        image.setImageUrl(baseUri + folder + "/" + finalName);
+        image.setImageUrl("/upload/" + folder + "/" + finalName);
+        image.setFolder(folder);
         imageRepo.save(image);
-        return new ImageDTO(image.getId(), image.getImageUrl());
+        return new ImageDTO(image.getId(), image.getImageUrl(), image.getFolder());
     }
 
     public void validate(MultipartFile file, String folder) throws URISyntaxException {

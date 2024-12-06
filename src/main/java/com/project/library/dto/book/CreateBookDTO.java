@@ -42,6 +42,7 @@ public class CreateBookDTO {
 
     @NotEmpty(message = "Book images are required")
     @Size(min = 1, message = "Book images must be greater than 1")
+    @Size(max = 8, message = "Book images must be less than 8")
     private List<Long> images;
 
     @NotNull(message = "Publisher is required")

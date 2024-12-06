@@ -1,4 +1,4 @@
-package com.project.library.dto;
+package com.project.library.dto.book;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -11,8 +11,7 @@ import org.springframework.stereotype.Component;
 @NoArgsConstructor
 @AllArgsConstructor
 @Component
-public class ImageDTO {
+public class BookPublisherDTO {
     private Long id;
-    private String imageUrl;
-    private String folder;
+    private String name;
 }
